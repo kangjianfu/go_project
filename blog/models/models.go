@@ -6,10 +6,11 @@ import (
 	//前面添加下划线是指：只加载默认的函数。因为是驱动所以只需要进行驱动的注册。
 	//_ "github.com/lib/pq"//postgresql postgresql 数据驱动
 	// _ "github.com/go-sql-driver/mysql" //mysql 数据库驱动
-	_ "github.com/mattn/go-sqlite3" // sqlite3 驱动。
 	"os"
 	"path"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3" // sqlite3 驱动。
 )
 
 const (
@@ -62,7 +63,4 @@ func RegisterDB() {
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
 	//根据数据库的别名，设置数据库的最大空闲连接
 	orm.SetMaxIdleConns("default", 30)
-}
-func init() {
-
 }
