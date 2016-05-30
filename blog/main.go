@@ -17,6 +17,8 @@ func main() {
 	//注册首页的路由
 	beego.Router("/", &controllers.HomeController{})
 	//注册登录的路由
-	beego.Router("/login", &controllers.LoginController{})
+	//beego.Router("/login", )
+	//自动注册loginController
+	beego.AutoRouter(&controllers.LoginController{})
 	beego.Run()
 }
