@@ -4,14 +4,14 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type HomeController struct {
+type VideoController struct {
 	beego.Controller
 }
 
-func (c *HomeController) Get() {
+func (this *VideoController) Show() {
 	//c.Data["Website"] = "beego.me"
 	//c.Data["Email"] = "551730672@gmail.com"
-	c.TplName = "index.html"
+	this.TplName = "video.html"
 
 	//c.TplName = "home.html"
 }

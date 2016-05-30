@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title> 首页-我的 blog 博客</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+<link rel="apple-touch-icon-precomposed" href="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+</head>
+<body >
+<div class="navbar  navbar-default navbar-fixed-top">
+<div class="container">
+        <div class="navbar-header">
+        <span class="navbar-brand hidden-sm" style="font-size:14px">视频</span>
+        <span class="navbar-brand pull-right" style="font-size:14px">视频</span>
+</div>
+</div>
+</div>
+<div class="container-fluid" style="background-color:#333333;padding-right:0px;padding-left:0px"  >
+<div   class="container-fluid" style="padding-right:2px;padding-left:2px;text-align:center" id="video">
+   <video  poster="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/14/01/m3u8/aws-cn_north_1-5-d4ec13bb03812481.m3u8.jpg" width="100%"  height="100%" controls="controls" webkit-playsinline=""><source src="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/14/01/m3u8/aws-cn_north_1-5-d4ec13bb03812481.m3u8" type="video/mp4"></video>
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/43/m3u8/aws-cn_north_1-5-6f934f23b2e9361a.m3u8  144*192 竖屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/46/m3u8/aws-cn_north_1-5-15848b3b32b7f98e.m3u8  360*480 竖屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/51/m3u8/aws-cn_north_1-5-7390f8f849a28d29.m3u8  360*640 竖屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/55/m3u8/aws-cn_north_1-5-249a39849858ea13.m3u8  480*640 竖屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/14/01/m3u8/aws-cn_north_1-5-d4ec13bb03812481.m3u8 1280*720 竖屏 -->
+
+
+    <!-- 横屏的意思是 宽度大于高度 -->
+   <!--  http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/18/m3u8/aws-cn_north_1-5-5ceff666ba3d22d4.m3u8 480*360 横屏 -->
+   <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/42/m3u8/aws-cn_north_1-5-bff5aab6689531d2.m3u8  640*360 横屏 --> 
+   <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/27/m3u8/aws-cn_north_1-5-b27d55568fa14cb4.m3u8  640*480 横屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/30/m3u8/aws-cn_north_1-5-903bc85e631ce9e2.m3u8 1280*720 横屏 -->
+    <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/37/m3u8/aws-cn_north_1-5-b4823d890688b78a.m3u8 192*144 横屏 -->
+    
+</div>
+</div>
+<hr>
+sdfsaf
+<br>
+<hr>
+sdfsdf
+</div>
+</body>
+ <script src="/static/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+<script >
+var video_width=720
+var video_height=1280
+var pm_width=getPageSize()[0];
+var pm_height=getPageSize()[1];
+//剩下屏幕的高度
+//如果视频宽度大于屏幕宽度 并且在手机上观看的 业务逻辑
+if (video_width>video_height) {
+if (pm_width>video_width) {
+   $("#video").height(video_height*(pm_width/video_width))
+     $("#video").width(pm_width)
+}else{
+    $("#video").width(pm_width)
+    //alert(pm_width)
+     //$("#video").attr("backgrod-color":"black")
+    // alert(video_height*(pm_width/video_width)*(2/3))
+    $("#video").height(video_height*(pm_width/video_width))
+}
+}else{//如果视频的高度大于视频的宽度 也就是视频是竖屏拍摄的。
+    //需要确定确定高度 高度为屏幕的3/2
+    //如果视频高度大于屏幕高度 视频高度缩小
+    
+         $("#video").height(pm_height*4/5)
+         //视频宽度需要缩小对应的比例
+         $("#video").width(video_width*((pm_height*4/5)/video_height))
+      
+    /*if (video_height>pm_height*2/3){
+        //视频高度就为屏幕高度的2/3
+         $("#video").height(pm_height*2/3)
+         //视频宽度需要缩小对应的比例
+         $("#video").width(video_width*((pm_height*2/3)/video_height))
+    }else{//视频高度放大到屏幕高度的2/3
+        $("#video").height(pm_height*2/3)
+    }*/
+   
+    
+
+
+}
+
+
+
+// 获取页面的高度、宽度
+function getPageSize() {
+    var xScroll, yScroll;
+    if (window.innerHeight && window.scrollMaxY) {
+        xScroll = window.innerWidth + window.scrollMaxX;
+        yScroll = window.innerHeight + window.scrollMaxY;
+    } else {
+        if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac    
+            xScroll = document.body.scrollWidth;
+            yScroll = document.body.scrollHeight;
+        } else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari    
+            xScroll = document.body.offsetWidth;
+            yScroll = document.body.offsetHeight;
+        }
+    }
+    var windowWidth, windowHeight;
+    if (self.innerHeight) { // all except Explorer    
+        if (document.documentElement.clientWidth) {
+            windowWidth = document.documentElement.clientWidth;
+        } else {
+            windowWidth = self.innerWidth;
+        }
+        windowHeight = self.innerHeight;
+    } else {
+        if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode    
+            windowWidth = document.documentElement.clientWidth;
+            windowHeight = document.documentElement.clientHeight;
+        } else {
+            if (document.body) { // other Explorers    
+                windowWidth = document.body.clientWidth;
+                windowHeight = document.body.clientHeight;
+            }
+        }
+    }       
+    // for small pages with total height less then height of the viewport    
+    if (yScroll < windowHeight) {
+        pageHeight = windowHeight;
+    } else {
+        pageHeight = yScroll;
+    }    
+    // for small pages with total width less then width of the viewport    
+    if (xScroll < windowWidth) {
+        pageWidth = xScroll;
+    } else {
+        pageWidth = windowWidth;
+    }
+    arrayPageSize = new Array(pageWidth, pageHeight, windowWidth, windowHeight);
+    return arrayPageSize;
+}
+ 
+// 滚动条
+document.body.scrollTop;
+$(document).scrollTop();
+
+
+</script>
+</html>
