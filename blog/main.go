@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 	"go_project/blog/controllers"
 	"go_project/blog/models"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 )
 
 func init() {
@@ -17,14 +18,12 @@ func main() {
 	//注册首页的路由
 	beego.Router("/", &controllers.HomeController{})
 	//注册登录的路由
-<<<<<<< HEAD
 	//beego.Router("/login", )
-	//自动注册loginController
+	//注解注册路由 loginController
+	//beego.auto()
 	beego.AutoRouter(&controllers.LoginController{})
-=======
-	beego.Router("/login", &controllers.LoginController{})
+	//beego.Router("/login", &controllers.LoginController{})
 	//自动注册路由
 	beego.AutoRouter(&controllers.VideoController{})
->>>>>>> bef4696ada1560e2afc568fdfcb5b0914e096e4a
 	beego.Run()
 }

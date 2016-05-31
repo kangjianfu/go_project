@@ -18,7 +18,8 @@
 </div>
 <div class="container-fluid" style="background-color:#333333;padding-right:0px;padding-left:0px"  >
 <div   class="container-fluid" style="padding-right:2px;padding-left:2px;text-align:center" id="video">
-   <video  poster="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/14/01/m3u8/aws-cn_north_1-5-d4ec13bb03812481.m3u8.jpg" width="100%"  height="100%" controls="controls" webkit-playsinline=""><source src="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/14/01/m3u8/aws-cn_north_1-5-d4ec13bb03812481.m3u8" type="video/mp4"></video>
+   <video  poster="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/18/m3u8/aws-cn_north_1-5-5ceff666ba3d22d4.m3u8.jpg" width="100%"  height="100%" controls="controls" webkit-playsinline="">
+<source src="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/18/m3u8/aws-cn_north_1-5-5ceff666ba3d22d4.m3u8" type="video/mp4"></video>
     <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/43/m3u8/aws-cn_north_1-5-6f934f23b2e9361a.m3u8  144*192 竖屏 -->
     <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/46/m3u8/aws-cn_north_1-5-15848b3b32b7f98e.m3u8  360*480 竖屏 -->
     <!-- http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160529/13/51/m3u8/aws-cn_north_1-5-7390f8f849a28d29.m3u8  360*640 竖屏 -->
@@ -46,16 +47,19 @@ sdfsdf
     <!-- Bootstrap Core JavaScript -->
     <script src="/static/js/bootstrap.min.js"></script>
 <script >
-var video_width=720
-var video_height=1280
+var videoUrl="http://s3.cn-north-1.amazonaws.com.cn/xvs/pub/ZBK_WEIXIN/20160527/16/18/m3u8/aws-cn_north_1-5-5ceff666ba3d22d4.m3u8"
+var video_width=480
+var video_height=360
 var pm_width=getPageSize()[0];
 var pm_height=getPageSize()[1];
 //剩下屏幕的高度
 //如果视频宽度大于屏幕宽度 并且在手机上观看的 业务逻辑
+ //$("#video").append("<video  poster=\""+videoUrl+".jpg\" width=\"100%\"  height=\"100%\" controls=\"controls\" ><source src=\""+videoUrl+"\" type=\"video/mp4\"></video>") 
 if (video_width>video_height) {
 if (pm_width>video_width) {
    $("#video").height(video_height*(pm_width/video_width))
      $("#video").width(pm_width)
+	
 }else{
     $("#video").width(pm_width)
     //alert(pm_width)

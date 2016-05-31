@@ -9,7 +9,8 @@ type LoginController struct {
 }
 
 //实现 controller的登录方法
-func (this *LoginController) Get() {
+//@router /login
+func (this *LoginController) Login() {
 	//登录页面不设置
 	//this.Data["xsrfdata"] = this.XSRFFormHTML()
 	this.Data["title"] = "登录页面"
