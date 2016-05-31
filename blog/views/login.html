@@ -18,11 +18,11 @@
                 <div class="col-lg-10">
                     <form  class="form-horizontal">
                         <div class="row">
-{{urlfor "LoginController.GetUrl"}}
                         <div class="form-group">
                             <label for="user_name" class="col-sm-2 control-label">用户名:</label>
                             <div class="col-sm-6">
                                 <input type="text" name="user_name"  class="form-control" value="" required="required" title="">
+							{{str2html .xsrfdata }}
                             </div>
                            </div>
                         <div class="form-group">
