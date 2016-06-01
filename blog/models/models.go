@@ -54,7 +54,7 @@ func RegisterDB() {
 	}
 	//初始化数据库
 	//注册模型
-	orm.RegisterModel(new(Category), new(Topic))
+	orm.RegisterModel(new(Category), new(Topic), new(User), new(Role), new(Resource), new(Dict))
 	// mysql / sqlite3 / postgres 这三种是默认已经注册过的，所以可以无需设置
 	//注册驱动
 	orm.RegisterDriver(_SQLITE3_DRIVER, orm.DRSqlite)
