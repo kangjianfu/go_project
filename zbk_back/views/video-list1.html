@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../static/js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../static/js/jquery-easyui-1.4.1/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/zbk_back.css" />
+<script type="text/javascript" src="../static/js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../static/js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../static/js/common.js"></script>
+</head>
+<body>
+
+<div class="easyui-layout" data-options="fit : true,border : false,height:500" style="height:900px">
+	
+		<div data-options="region:'center',border:false">
+			<table id="video_list"></table>
+		</div>
+	</div>
+<!--<div class="easyui-layout" data-options="fit : true,border : false">
+<div data-options="region:'center',border:false">
+			<table id="video_list"></table>
+		</div>
+	</div>-->
+<script type="text/javascript">
+$(function() {
+	$('#video_list').datagrid({
+		url : '/video/list',
+		fit : true,
+		fitColumns : true,
+		pageSize : 20,
+		border : false,
+		pagination : false,
+		singleSelect:true,
+		border : false,
+		pagination : true,
+		singleSelect:true,
+		idField : 'id',
+		pageList : [ 20, 40],
+		sortOrder : 'desc',
+		method:'get',
+		columns : [ [   {
+			field : 'user_name',
+			title : '拍摄人',
+			width : 50
+		},  {
+			field : 'created_at',
+			title : '拍摄时间',
+			width : 50
+		},{
+			field : 'resolution',
+			title : '分辨率',
+			width : 50
+		}, {
+			field : 'duration',
+			title : '视频时长',
+			width : 50
+		},{
+			field : 'access_cnt',
+			title : '访问量',
+			width : 50
+		},{
+			field : 'zan_cnt',
+			title : '点赞量',
+			width : 50
+		},{
+			field : 'location',
+			title : '位置',
+			width : 50
+		},{
+			field : 'description',
+			title : '视频描述',
+			width : 50
+		},{
+			field : 'url',
+			title : '视频地址',
+			width : 50
+		},{
+			field : 'action',
+			title : '操作',
+			width : 25,	
+			formatter : function(value, row, index) {
+				var rowInfo = JSON.stringify(row)
+				var str = '';
+				str += "<img onclick='palyVideo("+rowInfo+");' src='${pageContext.request.contextPath}/style/images/extjs_icons/video.png' title='展示配置详情'/>";
+				return str;
+			}
+		}  ] ],
+		onLoadSuccess : function() {
+			$(this).datagrid('unselectAll').datagrid('uncheckAll');
+			$(this).parent().height(500)
+		}
+	});
+});
+</script>
+</body>
+</html>

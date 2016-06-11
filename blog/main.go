@@ -15,6 +15,9 @@ func init() {
 func main() {
 	orm.Debug = true
 	orm.RunSyncdb("default", false, true)
+	//beego.SetStaticPath("/static/palyer/swf/woan_wmp.swf", "woan_wmp.swf")
+
+	//beego.Router("/static/player/swf/woan_wmp.swf", &controllers.HomeController{})
 	//注册前端页面的路由
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/index.html", &controllers.HomeController{})
