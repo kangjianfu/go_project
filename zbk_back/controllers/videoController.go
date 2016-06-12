@@ -36,7 +36,7 @@ func (this *VideoController) Report_list() {
 		return
 	}
 
-	this.Data["json"] = models.Datagrid_report_history(page, rows)
+	this.Data["json"] = models.Datagrid_report_info(page, rows)
 	this.ServeJSON()
 
 }

@@ -1,7 +1,7 @@
-<table id="video_list"></table>
+<table id="report_video_list"></table>
 <script type="text/javascript">
 $(function() {
-	$('#video_list').datagrid({
+	$('#report_video_list').datagrid({
 		url : '/video/report_list',
  		title:'举报视频列表',
 		fit : false,
@@ -17,21 +17,42 @@ $(function() {
 		sortOrder : 'desc',
 		method:'get',
 		columns : [ [   {
-			field : 'id',
-			title : 'id',
-			width : 50
-		},  {
 			field : 'share_id',
 			title : '分享id',
 			width : 50
 		},{
-			field : 'reason',
-			title : '原因',
+			field : 'nick_name',
+			title : '拍摄人',
 			width : 50
 		}, {
-			field : 'comment',
-			title : '描述',
+			field : 'zbk_id',
+			title : '直播号',
 			width : 50
+		}, {
+			field : 'duration',
+			title : '时长',
+			width : 50
+		}, {
+			field : 'access_cnt',
+			title : '访问量',
+			width : 50
+		}, {
+			field : 'report_cnt',
+			title : '举报量',
+			width : 50
+		},{
+			field : 'resolution',
+			title : '分辨率',
+			width : 50
+		}, {
+			field : 'last_report_time',
+			title : '最后举报时间',
+			width : 50
+		}, {
+			field : 'url',
+			title : '视频地址',
+			width : 5,
+			hidden:true
 		},{
 			field : 'action',
 			title : '操作',
