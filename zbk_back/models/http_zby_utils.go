@@ -46,6 +46,12 @@ type List_files struct {
 		Fields       string `json:"fields"`
 		Limit        int    `json:"limit"`
 		Order_asc    bool   `json:"order_asc"`
+		Filter       struct {
+			Expression      string `json:"expression"`
+			Attribute_names struct {
+				Duration string `json:"#duration"`
+			} `json:"attribute_names"`
+		} `json:"filter"`
 	} `json:"params"`
 }
 
@@ -99,7 +105,9 @@ func Managent_api_list_files() *Result_model {
 	files.Function = "list_files"
 	files.Params.Service_code = beego.AppConfig.String("service_code")
 	files.Params.Fields = "file_name,created_at,duration,width,height,user_name,description,url,location,access_cnt,zan_cnt"
-	files.Params.Limit = 29
+	files.Params.Limit = 20
+	files.Params.Filter.Expression = "attribute_exists(#duration)"
+	files.Params.Filter.Attribute_names.Duration = "duration"
 	management_url := beego.AppConfig.String("aws_zby_host") + beego.AppConfig.String("aws_zby_manage_uri") + "?" + zby_suffix
 	b, err := json.Marshal(files)
 	if err != nil {
@@ -109,6 +117,76 @@ func Managent_api_list_files() *Result_model {
 		return reslut_mode
 	}
 	jsonData := string(b)
+	management_uri := beego.AppConfig.String("aws_zby_manage_uri") + zby_suffix + jsonData + timestamp
+	req, err := http.NewRequest("POST", management_url, strings.NewReader(jsonData))
+	if err != nil {
+		log.Fatal(err)
+	}
+	singnature := Get_signature(management_uri)
+	req.Header.Set("xvs-signature", singnature)
+	req.Header.Set("xvs-timestamp", timestamp)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("网络请求失败")
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	reslut_data := string(body)
+	err = json.Unmarshal([]byte(reslut_data), reslut_mode)
+	if err != nil {
+		log.Println("发生错误了， api 返回json 后，转为对象失败")
+
+	} else {
+		log.Println("success api 返回json 后 对象转换成功")
+	}
+	//fmt.Println(reslut_mode)
+	return reslut_mode
+
+}
+
+// 测试
+type List_files_test struct {
+	Function string `json:"function"`
+	Params   struct {
+		Service_code string `json:"service_code"`
+		Fields       string `json:"fields"`
+		Limit        int    `json:"limit"`
+		Order_asc    bool   `json:"order_asc"`
+		Filter       struct {
+			Expression      string `json:"expression"`
+			Attribute_names struct {
+				Duration string `json:"#duration"`
+			} `json:"attribute_names"`
+		} `json:"filter"`
+	} `json:"params"`
+}
+
+func Test_managent_api_list_files() *Result_model {
+	reslut_mode := &Result_model{}
+	files := &List_files_test{}
+	client := &http.Client{}
+	files.Function = "list_files"
+	files.Params.Service_code = beego.AppConfig.String("service_code")
+	files.Params.Fields = "file_name,created_at,duration,width,height,user_name,description,url,location,access_cnt,zan_cnt"
+	files.Params.Filter.Expression = "attribute_exists(#duration)"
+	files.Params.Filter.Attribute_names.Duration = "duration"
+	files.Params.Limit = 20
+
+	management_url := beego.AppConfig.String("aws_zby_host") + beego.AppConfig.String("aws_zby_manage_uri") + "?" + zby_suffix
+	b, err := json.Marshal(files)
+	if err != nil {
+		log.Print("json 转化失败")
+		log.Fatal(err)
+		fmt.Println("encoding faild")
+		return reslut_mode
+	}
+
+	jsonData := string(b)
+
 	management_uri := beego.AppConfig.String("aws_zby_manage_uri") + zby_suffix + jsonData + timestamp
 	req, err := http.NewRequest("POST", management_url, strings.NewReader(jsonData))
 	if err != nil {
@@ -132,6 +210,7 @@ func Managent_api_list_files() *Result_model {
 	} else {
 		log.Println("success api 返回json 后 对象转换成功")
 	}
+	fmt.Println(reslut_mode)
 	return reslut_mode
 
 }

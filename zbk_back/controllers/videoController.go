@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"go_project/zbk_back/models"
+	"log"
+	"strconv"
 
 	"github.com/astaxie/beego"
 )
@@ -18,4 +20,23 @@ func (this *VideoController) List() {
 	vide_datagrid := models.Zby_model_to_datagrid_video(resultData)
 	this.Data["json"] = vide_datagrid
 	this.ServeJSON()
+}
+func (this *VideoController) Report_page() {
+	this.TplName = "report-list.html"
+}
+func (this *VideoController) Report_list() {
+	page, err := strconv.Atoi(this.Input().Get("page"))
+	if err != nil {
+		log.Print("页码不对")
+		return
+	}
+	rows, err := strconv.Atoi(this.Input().Get("rows"))
+	if err != nil {
+		log.Print("每页条数不对")
+		return
+	}
+
+	this.Data["json"] = models.Datagrid_report_history(page, rows)
+	this.ServeJSON()
+
 }

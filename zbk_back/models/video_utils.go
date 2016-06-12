@@ -47,7 +47,6 @@ func Zby_model_to_datagrid_video(zby_model *Result_model) *DataGrid_video {
 			video_info.Resolution = zby_model.Items[key].Width.N + " × " + zby_model.Items[key].Height.N
 			video_info.Duration = zby_model.Items[key].Duration.N
 			if zby_model.Items[key].Access_cnt.N != "" {
-				log.Print("访问量    =" + zby_model.Items[key].Access_cnt.N)
 				access_cnt, err := strconv.Atoi(zby_model.Items[key].Access_cnt.N)
 				if err != nil {
 					//log.Print("访问量 转为数字失败")
@@ -57,7 +56,6 @@ func Zby_model_to_datagrid_video(zby_model *Result_model) *DataGrid_video {
 			}
 			if zby_model.Items[key].Zan_cnt.N != "" {
 				zan_cnt, err := strconv.Atoi(zby_model.Items[key].Zan_cnt.N)
-				log.Print("点赞量    =" + zby_model.Items[key].Zan_cnt.N)
 				if err != nil {
 					log.Print(zby_model.Items[key].Zan_cnt.N)
 					//log.Print("点赞量为 转为数字失败")

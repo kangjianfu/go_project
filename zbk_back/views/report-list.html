@@ -2,8 +2,8 @@
 <script type="text/javascript">
 $(function() {
 	$('#video_list').datagrid({
-		url : '/video/list',
- 		title:'视频列表',
+		url : '/video/report_list',
+ 		title:'举报视频列表',
 		fit : false,
 		fitColumns : true,
 		pageSize : 20,
@@ -17,42 +17,21 @@ $(function() {
 		sortOrder : 'desc',
 		method:'get',
 		columns : [ [   {
-			field : 'user_name',
-			title : '拍摄人',
+			field : 'id',
+			title : 'id',
 			width : 50
 		},  {
-			field : 'created_at',
-			title : '拍摄时间',
+			field : 'share_id',
+			title : '分享id',
 			width : 50
 		},{
-			field : 'resolution',
-			title : '分辨率',
+			field : 'reason',
+			title : '原因',
 			width : 50
 		}, {
-			field : 'duration',
-			title : '视频时长',
+			field : 'comment',
+			title : '描述',
 			width : 50
-		},{
-			field : 'access_cnt',
-			title : '访问量',
-			width : 50
-		},{
-			field : 'zan_cnt',
-			title : '点赞量',
-			width : 50
-		},{
-			field : 'location',
-			title : '位置',
-			width : 50
-		},{
-			field : 'description',
-			title : '视频描述',
-			width : 50
-		},{
-			field : 'url',
-			title : '视频地址',
-			width : 5,
-			hidden:true
 		},{
 			field : 'action',
 			title : '操作',
