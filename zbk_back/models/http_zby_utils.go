@@ -143,6 +143,7 @@ func Managent_api_list_files() *Result_model {
 	} else {
 		log.Println("success api 返回json 后 对象转换成功")
 	}
+	fmt.Println(reslut_mode.Item_cnt)
 	//fmt.Println(reslut_mode)
 	return reslut_mode
 

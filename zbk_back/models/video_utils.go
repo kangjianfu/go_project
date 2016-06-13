@@ -39,7 +39,7 @@ func Zby_model_to_datagrid_video(zby_model *Result_model) *DataGrid_video {
 				log.Print("json 日期 转化失败")
 			} else {
 				tm := time.Unix(t, 10)
-				video_info.Created_at = tm.Format("2006-01-02 03:04:05 PM")
+				video_info.Created_at = tm.Format("2006-01-02 15:04:05 ")
 
 			}
 			video_info.User_name = zby_model.Items[key].User_name.S

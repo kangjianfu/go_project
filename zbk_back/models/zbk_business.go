@@ -47,18 +47,18 @@ type DataGrid_report struct {
 	Rows  []*Report_item `json:"rows"`
 }
 type Report_item struct {
-	Share_id         string    `json:"share_id"`
-	Video_url        string    `json:"url"`
-	Duration         float64   `json:"duration"`
-	Zbk_id           string    `json:"zbk_id"`
-	Nick_name        string    `json:"nick_name"`
-	Location         string    `json:"location"`
-	Description      string    `json:"description"`
-	Access_cnt       int64     `json:"access_cnt"`
-	Report_cnt       int64     `json:"report_cnt"`
-	Last_report_time time.Time `json:"last_report_time"`
-	Resolution       string    `json:"resolution"`
-	Zan_cnt          int64     `json:"zan_cnt"`
+	Share_id         string  `json:"share_id"`
+	Video_url        string  `json:"url"`
+	Duration         float64 `json:"duration"`
+	Zbk_id           string  `json:"zbk_id"`
+	Nick_name        string  `json:"nick_name"`
+	Location         string  `json:"location"`
+	Description      string  `json:"description"`
+	Access_cnt       int64   `json:"access_cnt"`
+	Report_cnt       int64   `json:"report_cnt"`
+	Last_report_time string  `json:"last_report_time"`
+	Resolution       string  `json:"resolution"`
+	Zan_cnt          int64   `json:"zan_cnt"`
 }
 
 //举报的视频
@@ -86,7 +86,8 @@ func Datagrid_report_info(page int, rows int) *DataGrid_report {
 			item.Access_cnt = report_list[k].Access_cnt
 			item.Report_cnt = report_list[k].Report_cnt
 			item.Resolution = strconv.FormatInt(report_list[k].Width, 10) + " × " + strconv.FormatInt(report_list[k].Height, 10)
-			item.Last_report_time = report_list[k].Last_report_time
+			//fmt.Println(report_list[k].Last_report_time.Local())
+			item.Last_report_time = report_list[k].Last_report_time.Local().Format("2006-01-02 15:04:05 ")
 			item.Zan_cnt = report_list[k].Zan_cnt
 			report_datagrid.Rows = append(report_datagrid.Rows, item)
 		}

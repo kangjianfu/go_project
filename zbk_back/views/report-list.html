@@ -74,8 +74,13 @@ $(function() {
 
 //播放视频
 function palyVideo(videoInfo){
-	var video_width=parseInt(videoInfo.resolution.substr(0,4))
-	var video_height=parseInt(videoInfo.resolution.substr(6))
+	var video_height=0
+	var video_width=parseInt(videoInfo.resolution.substr(0,4))==0?480:parseInt(videoInfo.resolution.substr(0,4))
+	if(parseInt(videoInfo.resolution.substr(0,4))>120){
+		video_height=parseInt(videoInfo.resolution.substr(6))
+	}else{
+		video_height=640
+	}
 	var d7 = $('<div/>').dialog({
 			width : video_width+15,
 			height : video_height+80,
