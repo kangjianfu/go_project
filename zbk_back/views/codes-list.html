@@ -1,0 +1,83 @@
+<table id="service_codes_list"></table>
+<script type="text/javascript">
+$(function() {
+	$('#service_codes_list').datagrid({
+		url : '/video/code_list',
+ 		title:'服务码列表',
+		fit : false,
+		fitColumns : true,
+		pageSize : 20,
+		border:true,
+		pagination : false,
+		singleSelect:true,
+		pagination : true,
+		singleSelect:true,
+		idField : 'id',
+		pageList : [ 20, 40],
+		sortOrder : 'desc',
+		method:'get',
+		columns : [ [   {
+			field : 'Service_code',
+			title : '服务码',
+			width : 50
+		},{
+			field : 'secret_key',
+			title : '签名密钥',
+			width : 50
+		}, {
+			field : 'action',
+			title : '操作',
+			width : 25,	
+			formatter : function(value, row, index) {
+				var rowInfo = JSON.stringify(row)
+				var str = '';
+				str += "<img onclick='palyVideo("+rowInfo+");' src='/static/images/extjs_icons/video.png' title='播放视频' style='cursor:pointer'/>";
+				return str;
+			}
+		}  ] ],
+		onLoadSuccess : function() {
+			$(this).datagrid('unselectAll').datagrid('uncheckAll');
+			$(this).datagrid('resize')
+		}
+	});
+});
+
+
+//播放视频
+function palyVideo(videoInfo){
+	var video_height=0
+	var video_width=parseInt(videoInfo.resolution.substr(0,4))==0?480:parseInt(videoInfo.resolution.substr(0,4))
+	if(parseInt(videoInfo.resolution.substr(0,4))>120){
+		video_height=parseInt(videoInfo.resolution.substr(6))
+	}else{
+		video_height=640
+	}
+	var d7 = $('<div/>').dialog({
+			width : video_width+15,
+			height : video_height+80,
+			modal : true,
+			title : '播放视频',
+			content:"<div id='player_div'></div>",
+			buttons : [{
+				text : '删除视频',
+				iconCls : 'icon-redo',
+				handler : function() {
+					alert("删除视频")
+				}
+			}, {
+				text : '关闭',
+				iconCls : 'icon-back',
+				handler : function() {
+					d7.dialog('destroy');
+				}
+			}  ],
+			onClose : function() {
+				$(this).dialog('destroy');
+			}
+		});
+		parameters.src = videoInfo.url;
+  		parameters.autoPlay = true;
+		init_player(video_width,video_height)
+ 				
+}
+</script>

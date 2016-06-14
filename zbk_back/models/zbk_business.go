@@ -41,7 +41,7 @@ type Share_info struct {
 	Zan_cnt          int64
 }
 
-//举报返回的dagrid
+//举报视频返回的dagrid
 type DataGrid_report struct {
 	Total int            `json:"total"`
 	Rows  []*Report_item `json:"rows"`
@@ -61,8 +61,7 @@ type Report_item struct {
 	Zan_cnt          int64   `json:"zan_cnt"`
 }
 
-//举报的视频
-
+//获取举报视频列表
 func Datagrid_report_info(page int, rows int) *DataGrid_report {
 	report_datagrid := new(DataGrid_report)
 	report_list := make([]*Share_info, 0)
@@ -86,7 +85,6 @@ func Datagrid_report_info(page int, rows int) *DataGrid_report {
 			item.Access_cnt = report_list[k].Access_cnt
 			item.Report_cnt = report_list[k].Report_cnt
 			item.Resolution = strconv.FormatInt(report_list[k].Width, 10) + " × " + strconv.FormatInt(report_list[k].Height, 10)
-			//fmt.Println(report_list[k].Last_report_time.Local())
 			item.Last_report_time = report_list[k].Last_report_time.Local().Format("2006-01-02 15:04:05 ")
 			item.Zan_cnt = report_list[k].Zan_cnt
 			report_datagrid.Rows = append(report_datagrid.Rows, item)
@@ -98,8 +96,41 @@ func Datagrid_report_info(page int, rows int) *DataGrid_report {
 	return report_datagrid
 }
 
+//服务码列表
+type Service_codes struct {
+	Service_code string `orm:"pk"`
+	Secret_key   string `json:"secret_key"`
+}
+
+//服务码返回的dagrid
+type DataGrid_service_codes struct {
+	Total int              `json:"total"`
+	Rows  []*Service_codes `json:"rows"`
+}
+
+//获取服务码列表的方法
+func DataGrid_service_codes_list(page int, rows int, parmas map[string]string) *DataGrid_service_codes {
+	codes_grids := new(DataGrid_service_codes)
+	service_codes := make([]*Service_codes, 0)
+	o := orm.NewOrm()
+	qs := o.QueryTable("service_codes")
+	if parmas == nil {
+		fmt.Println("过滤参数为空")
+	} else {
+		fmt.Println("过滤参数不为空")
+	}
+	_, err := qs.Limit(rows, page-1).All(&service_codes)
+	if len(service_codes) > 0 && err == nil {
+		for _, v := range service_codes {
+			codes_grids.Rows = append(codes_grids.Rows, v)
+		}
+		codes_grids.Total = len(service_codes)
+	}
+	return codes_grids
+}
+
 func RegisterDB() {
-	orm.RegisterModel(new(Report_history), new(Share_info))
+	orm.RegisterModel(new(Report_history), new(Share_info), new(Service_codes))
 	orm.RegisterDriver(_POSTGRES_DRIVER, orm.DRPostgres)
 	orm.RegisterDataBase("default", _POSTGRES_DRIVER, "user=zbk password=1T1Po7OgTyvz dbname=zbk host=db.zhiboyun.com port=5432 sslmode=disable", 10)
 	orm.SetMaxIdleConns("default", 10)

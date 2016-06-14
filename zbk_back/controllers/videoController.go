@@ -35,8 +35,27 @@ func (this *VideoController) Report_list() {
 		log.Print("每页条数不对")
 		return
 	}
-
 	this.Data["json"] = models.Datagrid_report_info(page, rows)
 	this.ServeJSON()
 
+}
+
+func (this *VideoController) Code_page() {
+	this.TplName = "codes-list.html"
+
+}
+func (this *VideoController) Code_list() {
+	page, err := strconv.Atoi(this.Input().Get("page"))
+	if err != nil {
+		log.Print("页码不对")
+		return
+	}
+	rows, err := strconv.Atoi(this.Input().Get("rows"))
+	if err != nil {
+		log.Print("每页条数不对")
+		return
+	}
+	this.Data["json"] = models.DataGrid_service_codes_list(page, rows, nil)
+
+	this.ServeJSON()
 }
