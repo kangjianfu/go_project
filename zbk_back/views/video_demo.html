@@ -3,88 +3,83 @@
 <html>
 {{template "header"}} 
 </head>
-  <nav class="navbar navbar-light  bg-faded" style="height:40px;padding:3px;border:1px #ccc solid">
-  <a class="navbar-brand" href="#">Navbar</a>
+<body>
+  <nav class="navbar navbar-light navbar-fixed-top bg-faded" style="height:40px;padding-top:0px;border:1px #ccc solid" id="nav_header">
+  <a class="navbar-brand"  style="margin-right:5px;" href="#"><img src="/static/bootstrap4.0/images/logos/woan/zbk-logo.png" style="height:33px;width:33px;margin-top:-2px" /></a>
   <ul class="nav navbar-nav">
     <li class="nav-item active">
-      <a class="nav-link" href="#">公司logo <span class="sr-only">(图标)</span></a>
+      <a class="nav-link" href="#" style="font-size:15px;padding-top:8px">我在拍.你在看</a>
     </li>
-   <!-- <li class="nav-item">
-      <a class="nav-link" href="#">Features</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Pricing</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">About</a>
-    </li>-->
-	<li class="nav-item pull-right">
-      <a class="nav-link" href="#">下载</a>
+	<li class="nav-item pull-right" >
+      <a class="nav-link" href="#" style="font-size:13px;color:red;padding-top:9px" onclick="downloadjump();" >下载直播客&nbsp;<i class='icon-angle-right'></i></a>
     </li>
   </ul>
- 
 </nav>
-<div class="container-fluid" style="padding:0px">
-
-<!--<div class="card">
-  <img class="card-img-top" src="/static/bootstrap4.0/images/timg.jpg" style="width:480px;height:640px" />
-  <div class="card-block">
-    <h4 class="card-title">Card title</h4>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Button</a>
-  </div>
-</div>-->
-
-<div class="card card-inverse card-primary text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+<div class="allpage">
+<div class="loading-warp">
+  <div class="box">
+    <div>
+      <img src="/static/bootstrap4.0/images/loading.gif" />
+      <span class="text">下拉刷新</span>
+    </div>
   </div>
 </div>
-<div class="row" style="border:1px #ccc solid">
-<ul class="nav nav-tabs">
-    <li class="nav-item" style="width:50%;padding:0px;margin:0px;background-color:#999999">
+
+<div class="jumbotron jumbotron-fluid" style="margin-bottom:0px;padding:0px;">
+  <div class="container" id="video_container"></div>
+</div>
+<div class="container-fluid" >
+<div class="row" id="nav_option">
+<ul class="nav nav-tabs" role="tablist" id="nav_column">
+    <li class="nav-item active" style="width:50%;padding:0px;margin:0px;" role="tab" data-toggle="tab" href="#video_descrption">
     <a href="#" class="nav-link">视频描述</a>
   </li>
-  <li  class="nav-item"  style="width:50% ;padding:0px;margin:0px;">
+  <li  class="nav-item"  style="width:50% ;padding:0px;margin:0px;" href="#video_comments" role="tab" data-toggle="tab">
     <a href="#" class="nav-link">评论信息</a>
   </li>
 </ul>
-
 </div>
-
-
-<div class="card card-inverse card-primary text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+<div class="row" id="desc_comm">
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="video_descrption" style="overflow:auto;" >
+  <div class="card text-left"  style="border:0px">
+      <div class="card-block" style="padding:0px;padding-top:5px;">
+     
+      <div style="float:left;margin-left:15px"><img src="http://wx.qlogo.cn/mmopen/PiajxSqBRaEIGppYSUNR3UnPow6gpLbgK3A19zcJj1DFmDfiajsyqXiajBjDaSz2ACz5wdTuupfh6hicO2iaokEgbcw/0" width="34" height="34"></div>
+      <div style="float:left;height:30px;margin-left:5px" >
+        <p style="padding:0px;margin:1px;text-align:left;color:#888888;font-size:12px">曹学武@直播云</p>
+        <p style="text-align:left;color:#888888;font-size:12px"><span id="created_at">2016-06-13 19:18</span>  <span>北京市朝阳区</span> </p>
+      </div>
+      
+      <p class="card-text" style="clear:both;padding:8px 1px 0px 1px;font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;这个送</p>
+      <p style="text-align:center"><button onclick="downloadjump();" type="button" id="download-btn"  class="btn btn-primary" autocomplete="off">
+                  <span class="icon-download-alt"></span>&nbsp;&nbsp;直播客--轻社交直播相机
+                </button>
+          </p>
+    </div>
   </div>
-</div>
-<div class="card card-inverse card-primary text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+
   </div>
+  <div role="tabpanel" class="tab-pane" id="video_comments">.sdfsdfsddssdsdd.</div>
+
 </div>
-<div class="card card-inverse card-primary text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
-  </div>
 </div>
 
-<nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
-  <a class="navbar-brand" href="#">Fixed bottom</a>
+
+</div>
+</div>
+<nav class="navbar navbar-fixed-bottom navbar-light bg-faded" style="height:40px;padding-top:0px;border:1px #ccc solid"  id="nav_bottom">
+  <a class="navbar-brand" href="#" style="padding-top:1px"><span class="bottom-span-font">访问  45</span></a>
+  <ul class="nav navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="#" style="margin:0px"><img src='/static/bootstrap4.0/images/logos/woan/good.png' style="width:30px;height:32px;margin-top:-7px" /> <sapn id="zan_cnt" class="bottom-span-font">15</sapn></a>
+
+    </li>
+  <li class="nav-item pull-right" >
+      <a class="nav-link" href="#" style="font-size:13px;color:red;padding-top:9px" onclick="downloadjump();" >举报&nbsp;<i class='icon-angle-right'></i></a>
+    </li>
+  </ul>
 </nav>
-</div>
 
 
 
