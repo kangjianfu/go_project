@@ -20,6 +20,12 @@
 	.content {
 		padding: 10px 10px 10px 10px;
 	}
+.validatebox-invalid {
+    /* border-color: #ffa8a8; */
+    background-color: #e6eef8;
+    /* color: #000; */
+    border: 1px solid #F11A69;
+	}
 </style>
 </head>
 <body class="easyui-layout">
@@ -31,6 +37,7 @@
 	         		<li data-options="attributes:{'url':'/video/page'}">每日视频列表</li>
 	         		<li data-options="attributes:{'url':'/video/report_page'}">举报视频列表</li>
 	         		<li data-options="attributes:{'url':'/video/code_page'}">服务码列表</li>
+					<li data-options="attributes:{'url':'/video/wx_infos_page'}">微信配置列表</li>
 	         	</ul>
          	</li>
          	<li>
