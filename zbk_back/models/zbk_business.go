@@ -21,24 +21,29 @@ type Report_history struct {
 	Reason   string
 	Comment  string
 }
+
+//share_info 表 视频记录表
+
 type Share_info struct {
-	Id               string `orm:"pk"`
-	Description      string
-	Location         string
-	Zbk_id           string
-	Service_code     string
-	Video_url        string
-	Nick_name        string
-	Avata            string
-	Created_at       time.Time
-	Last_update      time.Time
-	Duration         float64
-	Width            int64
-	Height           int64
-	Access_cnt       int64
-	Report_cnt       int64
-	Last_report_time time.Time
-	Zan_cnt          int64
+	Id                string `orm:"pk"`
+	Description       string
+	Location          string
+	Zbk_id            string
+	Service_code      string
+	Video_url         string
+	Nick_name         string
+	Avata             string
+	Created_at        time.Time
+	Last_update       time.Time
+	Last_notify_type  int
+	Duration          float64
+	Width             int64
+	Height            int64
+	Access_cnt        int64
+	Zan_cnt           int64
+	Report_cnt        int64
+	Last_report_time  time.Time
+	History_video_url string
 }
 
 //举报视频返回的dagrid
@@ -64,6 +69,7 @@ type Report_item struct {
 //获取举报视频列表
 func Datagrid_report_info(page int, rows int) *DataGrid_report {
 	report_datagrid := new(DataGrid_report)
+
 	report_list := make([]*Share_info, 0)
 	o := orm.NewOrm()
 	//qs:=o.QueryTable("report_history")
@@ -127,6 +133,45 @@ func DataGrid_service_codes_list(page int, rows int, parmas map[string]string) *
 		codes_grids.Total = len(service_codes)
 	}
 	return codes_grids
+}
+
+//查询对象
+type Query_model struct {
+	Page   int
+	Rows   int
+	Params map[string]string
+}
+type DataGrid_model struct {
+	Total int           `json:"total"`
+	Rows  []interface{} `json:"rows"`
+}
+
+//获取所有视频信息的列表
+func Get_all_videos(model *Query_model) *DataGrid_model {
+	grids := new(DataGrid_model)
+	//定义一个存放查询出结果的数组
+	video_items := make([]*Share_info, 0)
+	o := orm.NewOrm()
+	qs := o.QueryTable("share_info")
+	if model.Params != nil {
+		fmt.Println("传入查询参数不为空")
+	} else {
+		fmt.Println("传入查询参数为空")
+	}
+	if model.Rows == 0 {
+		model.Rows = 20
+	}
+	if model.Page == 0 {
+		model.Page = 1
+	}
+	_, err := qs.Limit(model.Rows, model.Page-1).All(&video_items)
+	if len(video_items) > 0 && err == nil {
+		for _, v := range video_items {
+			grids.Rows = append(grids.Rows, v)
+		}
+		grids.Total = len(video_items)
+	}
+	return grids
 }
 
 func RegisterDB() {

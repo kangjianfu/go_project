@@ -21,9 +21,13 @@ func (this *VideoController) List() {
 	this.Data["json"] = vide_datagrid
 	this.ServeJSON()
 }
+
+//举报页面
 func (this *VideoController) Report_page() {
 	this.TplName = "report-list.html"
 }
+
+//举报列表
 func (this *VideoController) Report_list() {
 	page, err := strconv.Atoi(this.Input().Get("page"))
 	if err != nil {
@@ -40,10 +44,13 @@ func (this *VideoController) Report_list() {
 
 }
 
+//服务码页面
 func (this *VideoController) Code_page() {
 	this.TplName = "codes-list.html"
 
 }
+
+//服务码列表
 func (this *VideoController) Code_list() {
 	page, err := strconv.Atoi(this.Input().Get("page"))
 	if err != nil {
