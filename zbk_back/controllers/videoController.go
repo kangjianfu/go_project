@@ -12,6 +12,13 @@ type VideoController struct {
 	beego.Controller
 }
 
+//微信配置信息的datagrid
+type Result_json struct {
+	Ret    int    `json:"ret"`
+	Msg    string `json:"msg"`
+	Status bool   `json:"status"`
+}
+
 func (this *VideoController) Page() {
 	this.TplName = "video-list.html"
 }
@@ -64,5 +71,56 @@ func (this *VideoController) Code_list() {
 	}
 	this.Data["json"] = models.DataGrid_service_codes_list(page, rows, nil)
 
+	this.ServeJSON()
+}
+
+//微信配置信息页面
+func (this *VideoController) Wx_infos_page() {
+	this.TplName = "wx-infos-list.html"
+
+}
+
+//微信配置信息列表
+func (this *VideoController) Wx_infos_list() {
+	page, err := strconv.Atoi(this.Input().Get("page"))
+	if err != nil {
+		log.Print("页码不对")
+		return
+	}
+	rows, err := strconv.Atoi(this.Input().Get("rows"))
+	if err != nil {
+		log.Print("每页条数不对")
+		return
+	}
+	this.Data["json"] = models.DataGrid_Wx_infos_list(page, rows, nil)
+
+	this.ServeJSON()
+}
+
+//提交微信配置信息
+func (this *VideoController) Add_wx_info() {
+	wx_info := new(models.Wei_xin_config_info)
+	result := new(Result_json)
+	if err := this.ParseForm(wx_info); err != nil {
+		result.Ret = 1
+		result.Status = false
+		result.Msg = "数据解析出错，请检查数据信息。"
+
+	} else {
+
+		id := models.Save_wx_info(wx_info)
+		if id > 0 {
+			result.Ret = 0
+			result.Status = true
+			result.Msg = "保存成功。"
+		} else {
+			result.Ret = 1
+			result.Status = false
+			result.Msg = "网络异常，保存失败。"
+		}
+
+	}
+	log.Print("插入微信配置信息成功。")
+	this.Data["json"] = result
 	this.ServeJSON()
 }

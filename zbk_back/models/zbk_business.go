@@ -66,6 +66,19 @@ type Report_item struct {
 	Zan_cnt          int64   `json:"zan_cnt"`
 }
 
+//微信配置信息
+type Wei_xin_config_info struct {
+	Id                 int64  `form:"-"`
+	Wx_app_name        string `form:"wx_app_name"`    //微信应用名称
+	Wx_open_appid      string `form:"wx_open_appid"`  //微信应用的id
+	Wx_open_secret     string `form:"wx_open_secret"` //微信应用id 密钥
+	Wx_mp_appid        string `form:"wx_mp_appid"`    //微信公众号id
+	Wx_mp_secret       string `form:"wx_mp_secret"`   //微信公众号的密钥
+	Service_code       string `form:"service_code"`   //服务码
+	Wx_app_description string `form:"description"`    //微信公众号的密钥
+	Created_at         time.Time
+}
+
 //获取举报视频列表
 func Datagrid_report_info(page int, rows int) *DataGrid_report {
 	report_datagrid := new(DataGrid_report)
@@ -135,6 +148,7 @@ func DataGrid_service_codes_list(page int, rows int, parmas map[string]string) *
 	return codes_grids
 }
 
+
 //查询对象
 type Query_model struct {
 	Page   int
@@ -172,10 +186,50 @@ func Get_all_videos(model *Query_model) *DataGrid_model {
 		grids.Total = len(video_items)
 	}
 	return grids
+
+//微信配置信息的datagrid
+type DataGrid_wx_infos struct {
+	Total int                    `json:"total"`
+	Rows  []*Wei_xin_config_info `json:"rows"`
+}
+
+//获取微信配置信息列表的方法
+func DataGrid_Wx_infos_list(page int, rows int, parmas map[string]string) *DataGrid_wx_infos {
+	wx_infos_grids := new(DataGrid_wx_infos)
+	wx_infos := make([]*Wei_xin_config_info, 0)
+	o := orm.NewOrm()
+	qs := o.QueryTable("wei_xin_config_info")
+	if parmas == nil {
+		fmt.Println("过滤参数为空")
+	} else {
+		fmt.Println("过滤参数不为空")
+	}
+	_, err := qs.Limit(rows, page-1).All(&wx_infos)
+	if len(wx_infos) > 0 && err == nil {
+		for _, v := range wx_infos {
+			wx_infos_grids.Rows = append(wx_infos_grids.Rows, v)
+		}
+		wx_infos_grids.Total = len(wx_infos)
+	} else {
+		wx_infos_grids.Rows = nil
+	}
+	return wx_infos_grids
+}
+
+func Save_wx_info(wx_info *Wei_xin_config_info) int64 {
+	o := orm.NewOrm()
+	wx_info.Created_at = time.Now().Local()
+	id, err := o.Insert(wx_info)
+	if err == nil {
+		return id
+	} else {
+		return 0
+	}
+
 }
 
 func RegisterDB() {
-	orm.RegisterModel(new(Report_history), new(Share_info), new(Service_codes))
+	orm.RegisterModel(new(Report_history), new(Share_info), new(Service_codes), new(Wei_xin_config_info))
 	orm.RegisterDriver(_POSTGRES_DRIVER, orm.DRPostgres)
 	orm.RegisterDataBase("default", _POSTGRES_DRIVER, "user=zbk password=1T1Po7OgTyvz dbname=zbk host=db.zhiboyun.com port=5432 sslmode=disable", 10)
 	orm.SetMaxIdleConns("default", 10)

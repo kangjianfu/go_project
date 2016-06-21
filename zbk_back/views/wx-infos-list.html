@@ -1,0 +1,147 @@
+<table id="wx_infos_list"></table>
+<div id="toolbar">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newApp()">添加应用</a>
+</div>
+
+<div id="dlg_app" class="easyui-dialog" style="width:600px;height:380px;padding:10px 20px"
+		closed="true" buttons="#dlg-buttons">
+	<form id="wei_xin_config_info" method="post">
+		<table class="table" width="100%">
+			<tr>
+			<th style="width: 30%">应用名称</th>
+			<td><input type="text" class="easyui-validatebox"
+				data-options="required:true,validType:'minLength[3]'" name="wx_app_name" style="width: 50%;" /></td>
+		</tr>
+			<tr>
+			<th align="left">服务码</th>
+			<td><input  name="service_code" style="width:50%;" class="easyui-validatebox" data-options="required:true,validType:'minLength[3]'" /> </td>
+		</tr>
+			
+		
+		<tr>
+			<th style="width: 30%">微信应用ID:</th>
+			<td style="text-align: left;" >
+		<input name="wx_open_appid"  type="text" style="width: 90%;"
+			class="easyui-validatebox" data-options="required:true" /> 
+		</td>
+		</tr>
+		
+		<tr>
+			<th align="left">微信应用secret</th>
+			<td><input id="cc" name="wx_open_secret" style="width:90%;" class="easyui-validatebox" data-options="required:true" > </td>
+		</tr>
+			
+		<tr>
+			<th style="width: 30%">微信公众号ID:</th>
+			<td style="text-align: left;" >
+		<input name="wx_mp_appid"  type="text" style="width: 90%;" class="easyui-validatebox" data-options="required:true" /> 
+		</td>
+		</tr>
+		
+			<tr>
+			<th align="left">公众号secret</th>
+			<td><input  name="wx_mp_secret" style="width:90%;" class="easyui-validatebox" data-options="required:true" > </td>
+				</tr>
+			<tr>
+	
+		<tr style="height: 105px;">
+			<th align="left" style="width: 30%">描述:</th>
+			<td  ><textarea name="description" style="width: 90%; height: 100%"></textarea></td>
+		</tr>
+
+	</table>
+	</form>
+</div>
+
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveApp()">保存</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_app').dialog('close')">返回</a>
+</div>
+<script type="text/javascript">
+$(function() {
+	$('#wx_infos_list').datagrid({
+		url : '/video/wx_infos_list',
+ 		title:'微信配置信息列表',
+		fit : false,
+		fitColumns : true,
+		pageSize : 20,
+		border:true,
+		striped:true,
+		rownumbers:true,
+		pagination : false,
+		singleSelect:true,
+		pagination : true,
+		singleSelect:true,
+		idField : 'id',
+		pageList : [ 20, 40],
+		sortOrder : 'desc',
+		method:'get',
+		toolbar:"#toolbar",
+		columns : [ [   {
+			field : 'Wx_app_name',
+			title : '应用名称',
+			width : 50
+		},{
+			field : 'Service_code',
+			title : '服务码',
+			width : 50
+		},{
+			field : 'Wx_mp_appid',
+			title : '微信公众号ID',
+			width : 50
+		}, {
+			field : 'Wx_mp_secret',
+			title : '微信公众号密钥',
+			width : 50
+		},{
+			field : 'Wx_open_appid',
+			title : '微信应用Id',
+			width : 50
+		},{
+			field : 'Wx_open_secret',
+			title : '微信应用密钥',
+			width : 50
+		},{
+			field : 'action',
+			title : '操作',
+			width : 25,	
+			formatter : function(value, row, index) {
+				var rowInfo = JSON.stringify(row)
+				var str = '<a href="#">删除应用信息</a>';
+				//str += "<img onclick='palyVideo("+rowInfo+");' src='/static/images/extjs_icons/video.png' title='播放视频' style='cursor:pointer'/>";
+				return str;
+			}
+		}  ] ],
+		onLoadSuccess : function() {
+			$(this).datagrid('unselectAll').datagrid('uncheckAll');
+			$(this).datagrid('resize')
+		}
+	});
+});
+
+function newApp(){
+	$('#dlg_app').dialog('open').dialog('setTitle','微信应用配置信息');
+	$('#wei_xin_config_info').form('clear');
+	url = '/video/add_wx_info';
+}
+function saveApp(){
+	$('#wei_xin_config_info').form('submit',{
+		url: url,
+		onSubmit: function(){
+			return $(this).form('validate');
+		},
+		success: function(result){
+			var res= eval('('+result+')')
+			if(res.status){
+				$('#dlg_app').dialog('close');
+				$('#wx_infos_list').datagrid('reload');
+			}
+			$.messager.show({
+					title: '提示',
+					msg: res.msg
+			});
+			
+		}
+	});
+}
+</script>
