@@ -1,0 +1,209 @@
+<table id="all_videos_list"></table>
+<div id="toolbar">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newApp()">添加应用</a>
+</div>
+
+<div id="dlg_app" class="easyui-dialog" style="width:600px;height:380px;padding:10px 20px"
+		closed="true" buttons="#dlg-buttons">
+	<form id="wei_xin_config_info" method="post">
+		<table class="table" width="100%">
+			<tr>
+			<th style="width: 30%">应用名称</th>
+			<td><input type="text" class="easyui-validatebox"
+				data-options="required:true,validType:'minLength[3]'" name="wx_app_name" style="width: 50%;" /></td>
+		</tr>
+			<tr>
+			<th align="left">服务码</th>
+			<td><input  name="service_code" style="width:50%;" class="easyui-validatebox" data-options="required:true,validType:'minLength[3]'" /> </td>
+		</tr>
+			
+		
+		<tr>
+			<th style="width: 30%">微信应用ID:</th>
+			<td style="text-align: left;" >
+		<input name="wx_open_appid"  type="text" style="width: 90%;"
+			class="easyui-validatebox" data-options="required:true" /> 
+		</td>
+		</tr>
+		
+		<tr>
+			<th align="left">微信应用secret</th>
+			<td><input id="cc" name="wx_open_secret" style="width:90%;" class="easyui-validatebox" data-options="required:true" > </td>
+		</tr>
+			
+		<tr>
+			<th style="width: 30%">微信公众号ID:</th>
+			<td style="text-align: left;" >
+		<input name="wx_mp_appid"  type="text" style="width: 90%;" class="easyui-validatebox" data-options="required:true" /> 
+		</td>
+		</tr>
+		
+			<tr>
+			<th align="left">公众号secret</th>
+			<td><input  name="wx_mp_secret" style="width:90%;" class="easyui-validatebox" data-options="required:true" > </td>
+				</tr>
+			<tr>
+	
+		<tr style="height: 105px;">
+			<th align="left" style="width: 30%">描述:</th>
+			<td  ><textarea name="description" style="width: 90%; height: 100%"></textarea></td>
+		</tr>
+
+	</table>
+	</form>
+</div>
+
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveApp()">保存</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_app').dialog('close')">返回</a>
+</div>
+<script type="text/javascript">
+$(function() {
+	$('#all_videos_list').datagrid({
+		url : '/video/all_list_videos',
+ 		title:'所有视频列表',
+		fit : false,
+		fitColumns : true,
+		pageSize : 20,
+		border:true,
+		striped:true,
+		pagination : false,
+		singleSelect:true,
+		pagination : true,
+		singleSelect:true,
+		idField : 'id',
+		pageList : [ 20, 40],
+		sortOrder : 'desc',
+		method:'get',
+		toolbar:"#toolbar",
+		columns : [ [   {
+			field : 'Id',
+			title : 'share_id',
+			width : 25
+		},{
+			field : 'Service_code',
+			title : '服务码',
+			width : 25
+		},{
+			field : 'Nick_name',
+			title : '昵称',
+			width : 25
+		}, {
+			field : 'Location',
+			title : '位置信息',
+			width : 50
+		},{
+			field : 'Video_url',
+			title : 'url',
+			width : 5,
+			hidden:true
+		},{
+			field : 'Height',
+			title : '高',
+			width : 5,
+			hidden:true
+		},{
+			field : 'Width',
+			title : '宽',
+			width : 5,
+			hidden:true
+		},{
+			field : 'Zbk_id',
+			title : '直播号',
+			width : 25
+		},{
+			field : 'Report_cnt',
+			title : '举报数量',
+			width : 25
+		},{
+			field : 'Created_at',
+			title : '拍摄时间',
+			width : 25
+		},{
+			field : 'Access_cnt',
+			title : '访问数量',
+			width : 25
+		},{
+			field : 'Duration',
+			title : '时长',
+			width : 25
+		},{
+			field : 'Zan_cnt',
+			title : '点赞数量',
+			width : 25
+		},{
+			field : 'action',
+			title : '操作',
+			width : 25,	
+			formatter : function(value, row, index) {
+				var rowInfo = JSON.stringify(row)
+				var str = '';
+				str += "<img onclick='palyVideo("+rowInfo+");' src='/static/images/extjs_icons/video.png' title='播放视频' style='cursor:pointer'/>";
+				return str;
+			}
+		}  ] ],
+		onLoadSuccess : function() {
+			$(this).datagrid('unselectAll').datagrid('uncheckAll');
+			$(this).datagrid('resize')
+		}
+	});
+});
+
+//播放视频
+function palyVideo(videoInfo){
+	var video_width=parseInt(videoInfo.Width)
+	var video_height=parseInt(videoInfo.Height)
+	var d7 = $('<div/>').dialog({
+			width : video_width+15,
+			height : video_height+80,
+			modal : true,
+			title : '播放视频',
+			content:"<div id='player_div'></div>",
+			buttons : [{
+				text : '删除视频',
+				iconCls : 'icon-redo',
+				handler : function() {
+					alert("删除视频")
+				}
+			}, {
+				text : '关闭',
+				iconCls : 'icon-back',
+				handler : function() {
+					d7.dialog('destroy');
+				}
+			}  ],
+			onClose : function() {
+				$(this).dialog('destroy');
+			}
+		});
+		parameters.src = videoInfo.Video_url;
+  		parameters.autoPlay = true;
+		init_player(video_width,video_height)
+ 				
+}
+function newApp(){
+	$('#dlg_app').dialog('open').dialog('setTitle','微信应用配置信息');
+	$('#wei_xin_config_info').form('clear');
+	url = '/video/add_wx_info';
+}
+function saveApp(){
+	$('#wei_xin_config_info').form('submit',{
+		url: url,
+		onSubmit: function(){
+			return $(this).form('validate');
+		},
+		success: function(result){
+			var res= eval('('+result+')')
+			if(res.status){
+				$('#dlg_app').dialog('close');
+				$('#wx_infos_list').datagrid('reload');
+			}
+			$.messager.show({
+					title: '提示',
+					msg: res.msg
+			});
+			
+		}
+	});
+}
+</script>

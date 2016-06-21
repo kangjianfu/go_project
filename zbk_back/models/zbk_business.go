@@ -148,7 +148,6 @@ func DataGrid_service_codes_list(page int, rows int, parmas map[string]string) *
 	return codes_grids
 }
 
-
 //查询对象
 type Query_model struct {
 	Page   int
@@ -156,36 +155,9 @@ type Query_model struct {
 	Params map[string]string
 }
 type DataGrid_model struct {
-	Total int           `json:"total"`
+	Total int64         `json:"total"`
 	Rows  []interface{} `json:"rows"`
 }
-
-//获取所有视频信息的列表
-func Get_all_videos(model *Query_model) *DataGrid_model {
-	grids := new(DataGrid_model)
-	//定义一个存放查询出结果的数组
-	video_items := make([]*Share_info, 0)
-	o := orm.NewOrm()
-	qs := o.QueryTable("share_info")
-	if model.Params != nil {
-		fmt.Println("传入查询参数不为空")
-	} else {
-		fmt.Println("传入查询参数为空")
-	}
-	if model.Rows == 0 {
-		model.Rows = 20
-	}
-	if model.Page == 0 {
-		model.Page = 1
-	}
-	_, err := qs.Limit(model.Rows, model.Page-1).All(&video_items)
-	if len(video_items) > 0 && err == nil {
-		for _, v := range video_items {
-			grids.Rows = append(grids.Rows, v)
-		}
-		grids.Total = len(video_items)
-	}
-	return grids
 
 //微信配置信息的datagrid
 type DataGrid_wx_infos struct {
@@ -225,6 +197,39 @@ func Save_wx_info(wx_info *Wei_xin_config_info) int64 {
 	} else {
 		return 0
 	}
+
+}
+
+//获取所有视频信息的列表
+func Get_all_videos(model *Query_model) *DataGrid_model {
+	grids := new(DataGrid_model)
+	//定义一个存放查询出结果的数组
+	video_items := make([]*Share_info, 0)
+	o := orm.NewOrm()
+	qs := o.QueryTable("share_info")
+	if model.Params != nil {
+		fmt.Println("传入查询参数不为空")
+	} else {
+		fmt.Println("传入查询参数为空")
+	}
+	if model.Rows == 0 {
+		model.Rows = 20
+	}
+	if model.Page == 0 {
+		model.Page = 1
+	}
+	qs = qs.OrderBy("-created_at")
+	_, err := qs.Limit(model.Rows, model.Page-1).All(&video_items)
+	if len(video_items) > 0 && err == nil {
+		for _, v := range video_items {
+			v.Created_at = v.Created_at.Location()
+			grids.Rows = append(grids.Rows, v)
+		}
+
+	}
+	total, _ := qs.Count()
+	grids.Total = total
+	return grids
 
 }
 

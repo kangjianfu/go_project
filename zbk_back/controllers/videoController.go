@@ -124,3 +124,28 @@ func (this *VideoController) Add_wx_info() {
 	this.Data["json"] = result
 	this.ServeJSON()
 }
+
+//所有视频信息
+func (this *VideoController) All_page() {
+	this.TplName = "videos-all.html"
+}
+
+//视频信息列表
+func (this *VideoController) All_list_videos() {
+	page, err := strconv.Atoi(this.Input().Get("page"))
+	if err != nil {
+		log.Print("页码不对")
+		return
+	}
+	rows, err := strconv.Atoi(this.Input().Get("rows"))
+	if err != nil {
+		log.Print("每页条数不对")
+		return
+	}
+	query := new(models.Query_model)
+	query.Page = page
+	query.Rows = rows
+	this.Data["json"] = models.Get_all_videos(query)
+
+	this.ServeJSON()
+}
