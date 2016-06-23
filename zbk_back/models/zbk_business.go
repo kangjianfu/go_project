@@ -43,6 +43,7 @@ type Share_info struct {
 	Zan_cnt           int64
 	Report_cnt        int64
 	Last_report_time  time.Time
+	Created_time      string `orm:"-"` //忽略字段的意思
 	History_video_url string
 }
 
@@ -219,10 +220,12 @@ func Get_all_videos(model *Query_model) *DataGrid_model {
 		model.Page = 1
 	}
 	qs = qs.OrderBy("-created_at")
-	_, err := qs.Limit(model.Rows, model.Page-1).All(&video_items)
+	qs = qs.Offset((model.Page - 1) * model.Rows)
+
+	_, err := qs.Limit(model.Rows).All(&video_items)
 	if len(video_items) > 0 && err == nil {
 		for _, v := range video_items {
-			v.Created_at = v.Created_at.Location()
+			v.Created_time = v.Created_at.Local().Format("2006-01-02 15:04:05")
 			grids.Rows = append(grids.Rows, v)
 		}
 
